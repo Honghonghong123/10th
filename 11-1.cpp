@@ -1,69 +1,49 @@
 #include<bits/stdc++.h>
 using namespace std;
-int f1(char (*arr1)[10], char (*arr2)[10], int n)
+//旋转90，后比较
+int f1(char arr1[10][10], char arr2[10][10], int n)
 {
 	for(int i = 0; i < n; i++)
-	{
-		for(int j = 0; j < n; j++)
-		{
-			if(*(arr1 + i)[j] != *(arr2 + j)[n - 1 - i]) return 0;
-		}
-		return 1;
-	}
+		for(int j = 0; j < n; j++) if(arr1[i][j] != arr2[j][n - 1 - i]) return 0;
+	return 1;
 }
-int f2(char (*arr1)[10], char (*arr2)[10], int n)
+//旋转180，后比较
+int f2(char arr1[10][10], char arr2[10][10], int n)
 {
 	for(int i = 0; i < n; i++)
-	{
-		for(int j = 0; j < n; j++)
-		{
-			if(*(arr1 + i)[j] != *(arr2 + n - 1 + j)[n - 1 - i]) return 0;
-		}
-		return 1;
-	}
+		for(int j = 0; j < n; j++) if(arr1[i][j] != arr2[n - 1 - i][n - 1 - j]) return 0;
+	return 1;
 }
-int f3(char (*arr1)[10], char (*arr2)[10], int n)
+//旋转270，后比较
+int f3(char arr1[10][10], char arr2[10][10], int n)
 {
 	for(int i = 0; i < n; i++)
-	{
-		for(int j = 0; j < n; j++)
-		{
-			if(*(arr1 + i)[j] != *(arr2 + n - 1 + j)[i]) return 0;
-		}
-		return 1;
-	}
+		for(int j = 0; j < n; j++) if(arr2[i][j] != arr1[j][n - 1 - i]) return 0;
+	return 1;
 }
-int f4(char (*arr1)[10], char (*arr2)[10], int n)
+//水平调换
+int f4(char arr1[10][10], char arr2[10][10], int n)
 {
 	for(int i = 0; i < n; i++)
-	{
-		for(int j = 0; j < n; j++)
-		{
-			if(*(arr1 + i)[j] != *(arr2 + i)[n - 1 - j]) return 0;
-		}
-		return 1;
-	}
+		for(int j = 0; j < n; j++) if(arr1[i][j] != arr2[i][n - 1 - j]) return 0;
+	return 1;
 }
-int f5(char (*arr1)[10], char (*arr2)[10], int n)
+int f5(char arr1[10][10], char arr2[10][10], int n)
 {
-	if(f4(arr1, arr2, n) == 1)
-	{
-		if(f1(arr1, arr2, n) == 1) return 1;
-		if(f2(arr1, arr2, n) == 1) return 1;
-		if(f3(arr1, arr2, n) == 1) return 1;
-	}
+	char arr3[10][10] = {'\0'};
+	for(int i = 0; i < n; i++)
+		for(int j = 0; j < n; j++) arr3[i][j] = arr1[i][n - 1 - j];
+	if(f1(arr3, arr2, n) == 1) return 1;
+	if(f2(arr3, arr2, n) == 1) return 1;
+	if(f3(arr3, arr2, n) == 1) return 1;
 	return 0;
 }
-int f6(char (*arr1)[10], char (*arr2)[10], int n)
+//没变化
+int f6(char arr1[10][10], char arr2[10][10], int n)
 {
 	for(int i = 0; i < n; i++)
-	{
-		for(int j = 0; j < n; j++)
-		{
-			if(*(arr1 + i)[j] != *(arr1 + i)[j]) return 0;
-		}
-		return 1;
-	}
+		for(int j = 0; j < n; j++) if(arr1[i][j] != arr2[i][j]) return 0;
+	return 1;
 }
 
 
@@ -75,18 +55,12 @@ int main()
 	getchar();
 	for(i = 0; i < n; i++)
 	{
-		for(j = 0; j < n; j++)
-		{
-			scanf("%c", &arr1[i][j]);
-		}
+		for(j = 0; j < n; j++) scanf("%c", &arr1[i][j]);
 		getchar();		
 	}
 	for(i = 0; i < n; i++)
 	{
-		for(j = 0; j < n; j++)
-		{
-			scanf("%c", &arr2[i][j]);
-		}
+		for(j = 0; j < n; j++) scanf("%c", &arr2[i][j]);
 		getchar();
 	}
 	if(f1(arr1, arr2, n) == 1) printf("1\n");
